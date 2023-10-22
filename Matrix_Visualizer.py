@@ -1,5 +1,4 @@
 # import needed libraries
-from turtle import color
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation as anim, markers
