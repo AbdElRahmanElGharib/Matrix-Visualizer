@@ -208,7 +208,7 @@ class Matrix_Visualizer:
         if self._initial_state == None:
             print('Animation is not made yet. Call save_animation() first.')
             return
-        current_directory = os.curdir
+        current_directory = os.curdir[:-1]
         os.system(command=r'cmd /c ""%MPC-HC%" "{}animation.mp4""'.format(current_directory))
 
     def _get_state(self, n):
