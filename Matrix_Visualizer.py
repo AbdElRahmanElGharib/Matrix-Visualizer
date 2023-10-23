@@ -5,6 +5,8 @@ from matplotlib import animation as anim, markers
 from IPython.display import HTML
 import os
 
+current_directory = ''
+
 # class definition 
 class Matrix_Visualizer:
     
@@ -207,7 +209,7 @@ class Matrix_Visualizer:
             print('Animation is not made yet. Call save_animation() first.')
             return
         current_directory = os.curdir
-        os.system(command=r'cmd /c ""mpc-hc64.exe" "{}\animation.mp4""'.format(current_directory))
+        os.system(command=r'cmd /c ""%MPC-HC%" "{}animation.mp4""'.format(current_directory))
 
     def _get_state(self, n):
         state = []
@@ -231,4 +233,5 @@ if __name__ == '__main__':
         
         query = input('do you want to see another animation:\t\t[y]/[n]\n').strip().lower()
         if query == 'n':
+            os.remove('{}animation.mp4'.format(current_directory))
             break
