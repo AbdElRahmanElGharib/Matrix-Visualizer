@@ -206,7 +206,8 @@ class Matrix_Visualizer:
         if self._initial_state == None:
             print('Animation is not made yet. Call save_animation() first.')
             return
-        os.system(command=r'cmd /c ""C:\Program Files (x86)\K-Lite Codec Pack\MPC-HC64\mpc-hc64.exe" "C:\Users\AbdElRahman_ElGharib\Desktop\a\animation.mp4""')
+        current_directory = os.curdir
+        os.system(command=r'cmd /c ""mpc-hc64.exe" "{}\animation.mp4""'.format(current_directory))
 
     def _get_state(self, n):
         state = []
@@ -223,9 +224,11 @@ if __name__ == '__main__':
         b = int(input('Enter [B] value then press [Enter]:\t'))
         c = int(input('Enter [C] value then press [Enter]:\t'))
         d = int(input('Enter [D] value then press [Enter]:\t'))
+        
         Matrix_Visualizer(a,b,c,d)\
             .save_animation()\
             .play()
+        
         query = input('do you want to see another animation:\t\t[y]/[n]\n').strip().lower()
         if query == 'n':
             break
