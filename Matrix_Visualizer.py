@@ -5,8 +5,6 @@ from matplotlib import animation as anim, markers
 from IPython.display import HTML
 import os
 
-current_directory = ''
-
 # class definition 
 class Matrix_Visualizer:
     
@@ -204,21 +202,25 @@ class Matrix_Visualizer:
         animation.save(filename = name)
         return self
         
-    def play(self):
+    def play(self, program_path, anim = 'animation.mp4'):
         if self._initial_state == None:
             print('Animation is not made yet. Call save_animation() first.')
             return
-        current_directory = os.curdir[:-1]
-        os.system(command=r'cmd /c ""%MPC-HC%" "{}animation.mp4""'.format(current_directory))
+        os.system(command=r'cmd /c "{} {}"'.format(program_path, anim))
 
     def _get_state(self, n):
         state = []
         for i in range(6):
-            state.append(((np.array(self._final_state[i]) - np.array(self._initial_state[i])) / 86 * (n-16)) + np.array(self._initial_state[i]))
+            init = np.array(self._initial_state[i])
+            fin = np.array(self._final_state[i])
+            state.append((1-((n-16)/ 86 ))*((1-((n-16)/ 86 ))*((1-((n-16)/ 86 ))*init+((n-16)/ 86 )*init)+((n-16)/ 86 )*((1-((n-16)/ 86 ))*init+((n-16)/ 86 )*fin))+((n-16)/ 86 )*((1-((n-16)/ 86 ))*((1-((n-16)/ 86 ))*init+((n-16)/ 86 )*fin)+((n-16)/ 86 )*((1-((n-16)/ 86 ))*fin+((n-16)/ 86 )*fin)))
         return state
     
 # main program
 if __name__ == '__main__':
+    path_to_player = input('Enter path to media player software:\n')
+    print("if you see output:\n\n'{path_to_player}' is not recognized as an internal or external command, operable program or batch file.\n\nThat means the path you provided is not recognized by the system. The animation will be saved in the same directory of the program under name of animation.mp4. You can play it manually. The animation will be overwritten each time and will be deleted after execution.")
+    #path_to_player = '"%MPC-HC%"'
     while True:
         print('''The matrix is in the formula [[A, B],
                               [C, D]]''')
@@ -229,9 +231,9 @@ if __name__ == '__main__':
         
         Matrix_Visualizer(a,b,c,d)\
             .save_animation()\
-            .play()
+            .play(path_to_player)
         
         query = input('do you want to see another animation:\t\t[y]/[n]\n').strip().lower()
         if query == 'n':
-            os.remove('{}animation.mp4'.format(current_directory))
+            os.remove('./animation.mp4')
             break
