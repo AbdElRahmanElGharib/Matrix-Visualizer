@@ -202,11 +202,11 @@ class Matrix_Visualizer:
         animation.save(filename = name)
         return self
         
-    def play(self):
+    def play(self, program_path, anim = 'animation.mp4'):
         if self._initial_state == None:
             print('Animation is not made yet. Call save_animation() first.')
             return
-        os.system(command=r'cmd /c ""%MPC-HC%" "animation.mp4""')
+        os.system(command=r'cmd /c "{} {}"'.format(program_path, anim))
 
     def _get_state(self, n):
         state = []
@@ -218,6 +218,9 @@ class Matrix_Visualizer:
     
 # main program
 if __name__ == '__main__':
+    path_to_player = input('Enter path to media player software:\n')
+    print("if you see output:\n\n'{path_to_player}' is not recognized as an internal or external command, operable program or batch file.\n\nThat means the path you provided is not recognized by the system. The animation will be saved in the same directory of the program under name of animation.mp4. You can play it manually. The animation will be overwritten each time and will be deleted after execution.")
+    #path_to_player = '"%MPC-HC%"'
     while True:
         print('''The matrix is in the formula [[A, B],
                               [C, D]]''')
@@ -228,7 +231,7 @@ if __name__ == '__main__':
         
         Matrix_Visualizer(a,b,c,d)\
             .save_animation()\
-            .play()
+            .play(path_to_player)
         
         query = input('do you want to see another animation:\t\t[y]/[n]\n').strip().lower()
         if query == 'n':
