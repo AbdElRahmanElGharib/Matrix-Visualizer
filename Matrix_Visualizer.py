@@ -5,8 +5,6 @@ from matplotlib import animation as anim, markers
 from IPython.display import HTML
 import os
 
-current_directory = ''
-
 # class definition 
 class Matrix_Visualizer:
     
@@ -208,13 +206,14 @@ class Matrix_Visualizer:
         if self._initial_state == None:
             print('Animation is not made yet. Call save_animation() first.')
             return
-        current_directory = os.curdir[:-1]
-        os.system(command=r'cmd /c ""%MPC-HC%" "{}animation.mp4""'.format(current_directory))
+        os.system(command=r'cmd /c ""%MPC-HC%" "animation.mp4""')
 
     def _get_state(self, n):
         state = []
         for i in range(6):
-            state.append(((np.array(self._final_state[i]) - np.array(self._initial_state[i])) / 86 * (n-16)) + np.array(self._initial_state[i]))
+            init = np.array(self._initial_state[i])
+            fin = np.array(self._final_state[i])
+            state.append((1-((n-16)/ 86 ))*((1-((n-16)/ 86 ))*((1-((n-16)/ 86 ))*init+((n-16)/ 86 )*init)+((n-16)/ 86 )*((1-((n-16)/ 86 ))*init+((n-16)/ 86 )*fin))+((n-16)/ 86 )*((1-((n-16)/ 86 ))*((1-((n-16)/ 86 ))*init+((n-16)/ 86 )*fin)+((n-16)/ 86 )*((1-((n-16)/ 86 ))*fin+((n-16)/ 86 )*fin)))
         return state
     
 # main program
@@ -233,5 +232,5 @@ if __name__ == '__main__':
         
         query = input('do you want to see another animation:\t\t[y]/[n]\n').strip().lower()
         if query == 'n':
-            os.remove('{}animation.mp4'.format(current_directory))
+            os.remove('./animation.mp4')
             break
